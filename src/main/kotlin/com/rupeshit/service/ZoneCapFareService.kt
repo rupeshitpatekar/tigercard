@@ -1,9 +1,6 @@
 package com.rupeshit.service
 
 import com.rupeshit.domain.CrossZone
-import com.rupeshit.domain.Day
-import com.rupeshit.domain.Zone
-import java.time.LocalTime
 import javax.inject.Singleton
 
 @Singleton
