@@ -1,6 +1,8 @@
 package com.rupeshit.service
 
 import com.rupeshit.domain.Journey
+import com.rupeshit.strategy.DailyFareStrategy
+import com.rupeshit.strategy.WeeklyFareStrategy
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,6 +15,12 @@ class JourneyServiceTest {
     @Inject
     private lateinit var journeyService: JourneyService
 
+    @Inject
+    private lateinit var dailyFareStrategy: DailyFareStrategy
+
+    @Inject
+    private lateinit var weeklyFareStrategy: WeeklyFareStrategy
+
     @Test
     fun `should calculate fare for journeys`(){
         val journeys = listOf(
@@ -20,7 +28,7 @@ class JourneyServiceTest {
             Journey(day="Monday", time = LocalTime.of(11, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne()),
             Journey(day="Monday", time = LocalTime.of(12, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne())
         )
-        assertEquals(80.0, journeyService.calculateDailyFare(journeys))
+        assertEquals(80.0, journeyService.calculateFare(dailyFareStrategy, journeys))
     }
 
     @Test
@@ -31,7 +39,7 @@ class JourneyServiceTest {
             Journey(day="Monday", time = LocalTime.of(12, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne()),
             Journey(day="Monday", time = LocalTime.of(13, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne())
         )
-        assertEquals(100.0, journeyService.calculateDailyFare(journeys))
+        assertEquals(100.0, journeyService.calculateFare(dailyFareStrategy, journeys))
     }
 
     @Test
@@ -41,7 +49,7 @@ class JourneyServiceTest {
             Journey(day="Monday", time = LocalTime.of(11, 30), fromZone = exampleZoneOne(), toZone = exampleZoneTwo()),
             Journey(day="Monday", time = LocalTime.of(12, 30), fromZone = exampleZoneTwo(), toZone = exampleZoneOne())
         )
-        assertEquals(90.0, journeyService.calculateDailyFare(journeys))
+        assertEquals(90.0, journeyService.calculateFare(dailyFareStrategy, journeys))
     }
 
     @Test
@@ -53,7 +61,7 @@ class JourneyServiceTest {
             Journey(day="Monday", time = LocalTime.of(13, 30), fromZone = exampleZoneTwo(), toZone = exampleZoneOne()),
             Journey(day="Monday", time = LocalTime.of(17, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne()),
         )
-        assertEquals(120.0, journeyService.calculateDailyFare(journeys))
+        assertEquals(120.0, journeyService.calculateFare(dailyFareStrategy, journeys))
     }
 
     @Test
@@ -66,7 +74,7 @@ class JourneyServiceTest {
             Journey(day="Thursday", time = LocalTime.of(7, 30), fromZone = exampleZoneTwo(), toZone = exampleZoneOne()),      //35
             Journey(day="Monday", time = LocalTime.of(7, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne(), week = "Week-2"), //30
         )
-        assertEquals(180.0, journeyService.calculateWeeklyFare(journeys))
+        assertEquals(180.0, journeyService.calculateFare(weeklyFareStrategy, journeys))
     }
 
     @Test
@@ -117,7 +125,7 @@ class JourneyServiceTest {
             Journey(day="Monday", time = LocalTime.of(7, 30), fromZone = exampleZoneOne(), toZone = exampleZoneTwo(), week = "Week-2"),//35
             Journey(day="Monday", time = LocalTime.of(11, 30), fromZone = exampleZoneTwo(), toZone = exampleZoneOne(), week = "Week-2"),//30   totalFare = 665
         )
-        assertEquals(665.0, journeyService.calculateWeeklyFare(journeys))
+        assertEquals(665.0, journeyService.calculateFare(weeklyFareStrategy, journeys))
     }
 
     @Test
@@ -129,7 +137,7 @@ class JourneyServiceTest {
             Journey(day="Thursday", time = LocalTime.of(7, 30), fromZone = exampleZoneTwo(), toZone = exampleZoneOne(), week = "Week-3"),      //35
             Journey(day="Monday", time = LocalTime.of(7, 30), fromZone = exampleZoneOne(), toZone = exampleZoneOne(), week = "Week-3"), //30
         )
-        assertEquals(155.0, journeyService.calculateWeeklyFare(journeys))
+        assertEquals(155.0, journeyService.calculateFare(weeklyFareStrategy, journeys))
     }
 
 }
