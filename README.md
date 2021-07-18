@@ -1,12 +1,5 @@
-## Micronaut 2.5.8 Documentation
+## TigerCard
 
-- [User Guide](https://docs.micronaut.io/2.5.8/guide/index.html)
-- [API Reference](https://docs.micronaut.io/2.5.8/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/2.5.8/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+This application was developed using Kotlin and Micronaut. As API's were unnecessary hence those are not written currently. However, it is not a big deal to add APIs to the application.
 
-## Feature http-client documentation
-
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
-
+We can test business logic using tests.
